@@ -70,6 +70,8 @@ Description: Run the initiative roll for characters passed on the json request. 
 
 Url: 192.168.10.10/api/v1/initiative
 
+Method: Post
+
 Sample json request:
 ```
 {
@@ -120,6 +122,8 @@ Sample response:
 Description: Run the attack roll for character passed as "attacker" on the json request. Is mandatory to pass two characters on the request, all fields on the character object and attacker are mandatory as well.
 
 Url: 192.168.10.10/api/v1/attack
+
+Method: Post
 
 Json request:
 ```
