@@ -59,15 +59,91 @@ class GameController extends Controller
         return $this->success($result, 200);
     }
 
-    public function rollAttack( Request $request) {
+    public function rollAttack( Request $request)
+    {
         //Get data from the request
         $data = $request->json()->all();
 
         //Get characters array
+
+        //Get attacker
+        if (!array_key_exists("attacker", $data)) {
+            abort(400, "Missing attacker on request.");
+        }
+        $attacker = $data["attacker"];
+
+
         $chars = $this->getCharArrayFromRequestData($data);
+
+        //set chars as attacker and defender
+        if ($chars[0]["name"] == $attacker) {
+            $attacker = $chars[0];
+            $defender = $chars[1];
+        } else {
+            $attacker = $chars[1];
+            $defender = $chars[0];
+        }
 
         //Result array that will be sent as response
         $result = array();
+        $verboseResult = "Start attack round! {$attacker["name"]} is attacking {$defender["name"]}!\n\n";
+
+        $attack = 0;
+        $defense = 0;
+        //Continue rolling until is not draw
+        while ($attack == $defense) {
+            //Roll attack
+            $atkRoll = Dice::rollDice("1d20");
+            $atkBonus = (int)$attacker["agility"] + (int)$attacker["attack"];
+            $attack = $atkRoll + $atkBonus;
+
+            //Roll defense
+            $defRoll = Dice::rollDice("1d20");
+            $defBonus = (int)$defender["agility"] + (int)$defender["defense"];
+            $defense = $defRoll + $defBonus;
+        }
+
+
+        //Attack Result
+        $result["Attacker"] = array("name" => $attacker["name"], "roll" => $atkRoll, "bonus" => $atkBonus, "attack" => $attack);
+        $verboseResult .= "Rolling dice for human attack...\n";
+        $verboseResult .= "Dice roll = $atkRoll + $atkBonus (Agility + Attack bonus)\n";
+        $verboseResult .= "Attack = $attack\n\n";
+
+        //Defense Result
+        $result["Defender"] = array("name" => $defender["name"],"roll" => $defRoll, "bonus" => $defBonus, "defense" => $defense);
+        $verboseResult .= "Rolling dice for human attack...\n";
+        $verboseResult .= "Dice roll = $defRoll + $atkBonus (Agility + Defense bonus)\n";
+        $verboseResult .= "Defense = $defense\n\n";
+
+        //Check if attack hit
+        if( $attack > $defense ) {
+            //Hit!
+            //roll for damage
+            $damageRoll = Dice::rollDice($attacker["damage"]);
+            $bonus = (int)$attacker["strength"];
+            $damage = $damageRoll + $bonus;
+
+            //apply damage
+            $defender["hp"] = $defender["hp"] - $damage;
+
+            $result["AttackResult"] = array("result" => "hit", "roll" => $damageRoll, "bonus" => $bonus, "damage" => $damage);
+            $verboseResult .= "{$attacker["name"]} attack hit the {$defender["name"]} for {$damage} of damage!\n";
+        }
+        else {
+            $result["AttackResult"] = array("result" => "miss");
+            $verboseResult .= "{$attacker["name"]} missed the attack on {$defender["name"]}!\n";
+        }
+        
+
+        //Character after battle
+        $result["characters"][] = $attacker;
+        $result["characters"][] = $defender;
+
+        //Verbose result
+        $result["VerboseResult"] = $verboseResult;
+
+        return $this->success($result, 200);
     }
 
     private function getCharArrayFromRequestData($data){
