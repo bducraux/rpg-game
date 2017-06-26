@@ -69,12 +69,12 @@ $(document).ready(function(){
 							//reduce HP from the defensor
 							if( json.data.Defender.name == "Human"){
 								var hp = human.hp - json.data.AttackResult.damage;
-								$('#humanHp').html(hp);
+								$('#humanHp').html(pad(hp));
 
 							}
 							else {
 								var hp = orc.hp - json.data.AttackResult.damage;
-								$('#orcHp').html(hp);
+								$('#orcHp').html(pad(hp));
 							}
 						}
 
@@ -113,7 +113,7 @@ $(document).ready(function(){
 					if( json.data.Defender.name == "Human"){
 						var hp =  $('#humanHp').text();
 						hp = hp - json.data.AttackResult.damage;
-						$('#humanHp').html(hp);
+						$('#humanHp').html(pad(hp));
 						if(hp <= 0 ){
 							alert("Human is dead!");
 							$('#next-round').css('visibility','hidden');
@@ -124,7 +124,7 @@ $(document).ready(function(){
 					else {
 						var hp =  $('#orcHp').text();
 						hp = hp - json.data.AttackResult.damage;
-						$('#orcHp').html(hp);
+						$('#orcHp').html(pad(hp));
 						if(hp <= 0 ){
 							alert("Orc is dead!");
 							$('#next-round').css('visibility','hidden');
@@ -173,4 +173,8 @@ function setCharactersArray(human, orc) {
 function nl2br (str, is_xhtml) {
 	var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
 	return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
+}
+
+function pad(d) {
+	return (d < 10 && d > 0) ? '0' + d.toString() : d.toString();
 }
