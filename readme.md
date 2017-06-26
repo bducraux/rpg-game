@@ -47,7 +47,7 @@ vagrant up
 ```
 Caso enfrente erro para iniciar a maquina virtual verifique se Intel Virtualization Technology está habilitada na Bios no seu computador. [Instruções de como habilitar](http://www.sysprobs.com/disable-enable-virtualization-technology-bios).
 
-## Acessando a aplicação
+## Acessando o client para testar a aplicação
 Caso queria podemos [editar o arquivo hosts](https://www.tecmundo.com.br/sistema-operacional/5214-como-editar-os-arquivos-hosts-do-computador-.htm),  caso tenha alterado o ip no arquivo de configuração Homestead.yaml reflita essa alteração abaixo:
 ```
 192.168.10.10 rpg-game
@@ -56,9 +56,11 @@ Caso queria podemos [editar o arquivo hosts](https://www.tecmundo.com.br/sistema
 Caso tenha utilizado Homestead como ambiente e tenha seguido as instruções, basta acessar o link:
 ```
 #ip da maquina virtual
-http://192.168.10.10
+http://192.168.10.10/sample-client/
 
 #ou caso tenha alterado o hosts
-http://rpg-game
+http://rpg-game/sample-client/
 ```
+
+Lembrando que esse client é apenas um exemplo de como acessar as funções do web service via ajax.
 
