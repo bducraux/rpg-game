@@ -106,13 +106,13 @@ class GameController extends Controller
 
         //Attack Result
         $result["Attacker"] = array("name" => $attacker["name"], "roll" => $atkRoll, "bonus" => $atkBonus, "attack" => $attack);
-        $verboseResult .= "Rolling dice for human attack...\n";
+        $verboseResult .= "Rolling dice for {$attacker["name"]} attack...\n";
         $verboseResult .= "Dice roll = $atkRoll + $atkBonus (Agility + Attack bonus)\n";
         $verboseResult .= "Attack = $attack\n\n";
 
         //Defense Result
         $result["Defender"] = array("name" => $defender["name"],"roll" => $defRoll, "bonus" => $defBonus, "defense" => $defense);
-        $verboseResult .= "Rolling dice for human attack...\n";
+        $verboseResult .= "Rolling dice for {$defender["name"]} defense...\n";
         $verboseResult .= "Dice roll = $defRoll + $atkBonus (Agility + Defense bonus)\n";
         $verboseResult .= "Defense = $defense\n\n";
 
@@ -127,14 +127,14 @@ class GameController extends Controller
             //apply damage
             $defender["hp"] = $defender["hp"] - $damage;
 
-            $result["AttackResult"] = array("result" => "hit", "roll" => $damageRoll, "bonus" => $bonus, "damage" => $damage);
+            $result["AttackResult"] = array("result" => "hit", "damageRoll" => $damageRoll, "bonus" => $bonus, "damage" => $damage);
             $verboseResult .= "{$attacker["name"]} attack hit the {$defender["name"]} for {$damage} of damage!\n";
         }
         else {
             $result["AttackResult"] = array("result" => "miss");
             $verboseResult .= "{$attacker["name"]} missed the attack on {$defender["name"]}!\n";
         }
-        
+
 
         //Character after battle
         $result["characters"][] = $attacker;

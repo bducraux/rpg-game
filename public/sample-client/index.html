@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>RPG - Round Based Battle</title>
+    <link rel="stylesheet" type="text/css" href="./resources/css/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./resources/js/script.js"></script>
+</head>
+
+<body>
+
+<div id="main" class="container">
+    <h1>A simple AJAX client for RPG Battle Web Service</h1>
+    <h2>Because simpler is better</h2>
+
+    <ul id="navigation">
+    <li><button id="start">Start Battle</button></li>
+    <li><button id="next-round">Next Round</button></li>
+    <li><button id="start-again">Start again?</button></li>
+    <li><img id="loading" src="./resources/img/ajax_load.gif" alt="loading" /></li>
+    </ul>
+    <input id="lastAttack" type="hidden" value="" name="lastAttack" />
+    <div class="clear"></div>
+
+    <div id="pageContent">
+    <pre>
+        <span style="color: #4cae4c">
+____________________  ________  __________         __    __  .__
+\______   \______   \/  _____/  \______   \_____ _/  |__/  |_|  |   ____
+ |       _/|     ___/   \  ___   |    |  _/\__  \\   __\   __\  | _/ __ \
+ |    |   \|    |   \    \_\  \  |    |   \ / __ \|  |  |  | |  |_\  ___/
+ |____|_  /|____|    \______  /  |______  /(____  /__|  |__| |____/\___  >
+        \/                  \/          \/      \/                     \/
+
+ __      __      ___.       _________                  .__
+/  \    /  \ ____\_ |__    /   _____/ ______________  _|__| ____  ____
+\   \/\/   // __ \| __ \   \_____  \_/ __ \_  __ \  \/ /  |/ ___\/ __ \
+ \        /\  ___/| \_\ \  /        \  ___/|  | \/\   /|  \  \__\  ___/
+  \__/\  /  \___  >___  / /_______  /\___  >__|    \_/ |__|\___  >___  >
+       \/       \/    \/          \/     \/                    \/    \/
+        </span>
+        <span style="color: #007bc4">
++---------------+      +---------------+
++     Human     +      +      Orc      +
++---------------+      +---------------+
++ Atk=+1 Def=+1 +      + Atk=+1 Def= 0 +
++ Str=+1 Agi=+1 +      + Str=+2 Agi= 0 +
++ Damage = 1d6  +  VS  + Damage = 1d8  +
++---------------+      +---------------+
++ HP = <span id="humanHp"></span>       +      + HP = <span id="orcHp"></span>       +
++---------------+      +---------------+
+        </span>
+</pre>
+        <div id="pageResult"></div>
+
+
+    </div>
+    <div class="clear"></div>
+
+</div>
+<div align="center" class="footer">
+Contact <a href="mailto:bruno.drx@gmail.com">bruno.drx@gmail.com</a>
+</div>
+
+</body>
+</html>
