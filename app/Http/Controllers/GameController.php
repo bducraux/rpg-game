@@ -21,28 +21,35 @@ class GameController extends Controller
         //Verbose result for the roll
         $verboseResult = "Initiative round started!\n";
 
-        //Roll char1 initiative
+        $char1_Initiative = 0;
+        $char2_Initiative = 0;
 
-        $roll = Dice::rollDice("1d20");
-        $char1 = $this->getCharacterObjectFromArray($chars[0]);
-        $char1_Name = $char1->getName();
-        $char1_Agility = (int)$char1->getAgility();
-        $char1_Initiative = $roll + $char1_Agility;
+        //While is draw, run again
+        while( $char1_Initiative == $char2_Initiative ) {
+            //Roll char1 initiative
+            $roll = Dice::rollDice("1d20");
+            $char1 = $this->getCharacterObjectFromArray($chars[0]);
+            $char1_Name = $char1->getName();
+            $char1_Agility = (int)$char1->getAgility();
+            $char1_Initiative = $roll + $char1_Agility;
 
-        //Set result for this char
+            //Roll char2 initiative
+            $roll = Dice::rollDice("1d20");
+            $char2 = $this->getCharacterObjectFromArray($chars[1]);
+            $char2_Name = $char2->getName();
+            $char2_Agility = (int)$char2->getAgility();
+            $char2_Initiative = $roll + $char2_Agility;
+        }
+
+
+        //Set result for char1
         $result[$char1_Name] = array( "roll" => $roll, "bonus" => $char1_Agility, "initiative" => $char1_Initiative);
         $verboseResult .= "Rolling initiative for $char1_Name\n";
         $verboseResult .= "Dice roll = $roll + $char1_Agility (Agility bonus)\n";
         $verboseResult .= "Initiative = $char1_Initiative\n\n";
 
-        //Roll char2 initiative
-        $roll = Dice::rollDice("1d20");
-        $char2 = $this->getCharacterObjectFromArray($chars[1]);
-        $char2_Name = $char2->getName();
-        $char2_Agility = (int)$char2->getAgility();
-        $char2_Initiative = $roll + $char2_Agility;
 
-        //Set result for this char
+        //Set result for char2
         $result[$char2_Name] = array( "roll" => $roll, "bonus" => $char2_Agility, "initiative" => $char2_Initiative);
         $verboseResult .= "Rolling initiative for $char2_Name\n";
         $verboseResult .= "Dice roll = $roll + $char2_Agility (Agility bonus)\n";
