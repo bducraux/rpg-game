@@ -64,3 +64,133 @@ http://rpg-game/sample-client/
 
 Lembrando que esse client é apenas um exemplo de como acessar as funções do web service via ajax.
 
+## Web Service Actions
+### Initiative
+Description: Run the initiative roll for characters passed on the json request. Is mandatory to pass two characters on the request, all fields on the character object are mandatory as well.
+
+Url: 192.168.10.10/api/v1/initiative
+
+Sample json request:
+```
+{
+  "characters": [
+    {
+      "name": "Human",
+      "attack": "+2",
+      "defense": "+1",
+      "strength": "+1",
+      "agility": "+2",
+      "damage": "1d6",
+      "hp": "12"
+    },
+    {
+      "name": "Orc",
+      "attack": "+1",
+      "defense": "0",
+      "strength": "+2",
+      "agility": "0",
+      "damage": "1d8",
+      "hp": "20"
+    }
+  ]
+}
+```
+
+Sample response:
+```
+{
+    "data": {
+        "Human": {
+            "roll": 19,
+            "bonus": 2,
+            "initiative": 21
+        },
+        "Orc": {
+            "roll": 20,
+            "bonus": 0,
+            "initiative": 20
+        },
+        "Winner": "Human",
+        "VerboseResult": "Initiative round started!\nRolling initiative for Human\nDice roll = 19 + 2 (Agility bonus)\nInitiative = 21\n\nRolling initiative for Orc\nDice roll = 20 + 0 (Agility bonus)\nInitiative = 20\n\nHuman won the initiative round, and will start attacking!\n\n"
+    }
+}
+```
+
+### Attack
+Description: Run the attack roll for character passed as "attacker" on the json request. Is mandatory to pass two characters on the request, all fields on the character object and attacker are mandatory as well.
+
+Url: 192.168.10.10/api/v1/attack
+
+Json request:
+```
+{
+  "characters": [
+    {
+      "name": "Human",
+      "attack": "+2",
+      "defense": "+1",
+      "strength": "+1",
+      "agility": "+2",
+      "damage": "1d6",
+      "hp": "12"
+    },
+    {
+      "name": "Orc",
+      "attack": "+1",
+      "defense": "0",
+      "strength": "+2",
+      "agility": "0",
+      "damage": "1d8",
+      "hp": "20"
+    }
+  ],
+  "attacker": "Human"
+}
+```
+
+Sample response:
+```
+{
+    "data": {
+        "Attacker": {
+            "name": "Human",
+            "roll": 20,
+            "bonus": 4,
+            "attack": 24
+        },
+        "Defender": {
+            "name": "Orc",
+            "roll": 15,
+            "bonus": 0,
+            "defense": 15
+        },
+        "AttackResult": {
+            "result": "hit",
+            "damageRoll": 6,
+            "bonus": 1,
+            "damage": 7
+        },
+        "characters": [
+            {
+                "name": "Human",
+                "attack": "+2",
+                "defense": "+1",
+                "strength": "+1",
+                "agility": "+2",
+                "damage": "1d6",
+                "hp": "12"
+            },
+            {
+                "name": "Orc",
+                "attack": "+1",
+                "defense": "0",
+                "strength": "+2",
+                "agility": "0",
+                "damage": "1d8",
+                "hp": 13
+            }
+        ],
+        "VerboseResult": "Start attack round! Human is attacking Orc!\n\nRolling dice for Human attack...\nDice roll = 20 + 4 (Agility + Attack bonus)\nAttack = 24\n\nRolling dice for Orc defense...\nDice roll = 15 + 4 (Agility + Defense bonus)\nDefense = 15\n\nHuman attack hit the Orc for 7 of damage!\n"
+    }
+}
+```
